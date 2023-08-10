@@ -25,8 +25,8 @@ $(document).ready(function()
     var playlists = []; // Playlists to convert
 
     function fetchData(platform) {
-        //const url = `http://127.0.0.1:5000/${platform}/Playlist`;
-        const url = `https://ez-shift.vercel.app/${platform}/Playlist` // URL to test on vercel
+        const url = `http://127.0.0.1:5000/${platform}/Playlist`;
+        //const url = `https://ez-shift.vercel.app/${platform}/Playlist` // URL to test on vercel
         return new Promise(function (resolve, reject) {
           $.getJSON(url, function (data) {
             resolve(data);

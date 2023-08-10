@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import requests
 
-import jwt, datetime, calendar, time
+import os, jwt, datetime, calendar, time
 
 from cryptography.hazmat.primitives import serialization
 

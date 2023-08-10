@@ -24,6 +24,20 @@ class MusicManager(object):
         raise NotImplementedError("Subclasses must implement this method")
 
 
+class AppleManager(MusicManager):
+    def __init__(self):
+        super().__init__() # Call the parent constructor
+
+    def getPlaylists(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+    def getTracks(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+    def postPlaylist(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+
 # Spotify Music Manager
 class SpotifyManager(MusicManager):
     def __init__(self):
@@ -137,8 +151,6 @@ class SpotifyManager(MusicManager):
         data = requests.get(image).content
         image_base64 = base64.b64encode(data).decode('utf-8')
         return image_base64
-
-
 
 
 # Youtube Music Manager
