@@ -1,0 +1,379 @@
+/*
+TITLE: portfolio.css
+AUTHOR: Malik Falana
+PURPOSE: Stylesheet for portfolio webpage
+NOTE: Based on template provided by instructor
+ORIGINALLY CREATED ON: 07/21/2023
+LAST MODIFIED ON: 07/21/2023
+LAST MODIFIED BY: Malik Falana (MF)
+MODIFICATION HISTORY: 
+07/21/2023: Create date
+*/
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,500,600');
+
+#bg
+{
+	background-color: #151320;
+	/*background: linear-gradient(rgba(29,96,229, .4), rgba(29,96,229, .1));*/
+	
+}
+
+
+
+/* --------------------------------------- */
+/* ----- Projects ----- */
+/* --------------------------------------- */
+
+.Projects
+{
+	background-color: #151320;
+	height: 100vh;
+	display: grid;
+	place-items: center center;
+
+	
+	
+}
+
+#Assignments div.master
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px,1fr));
+	padding: 20px;
+	grid-gap: 40px;
+}
+
+#Assignments div.card
+{
+	background-color: #1C1B29;
+    border: #000000 4px dashed;
+	border-radius: 20px;
+	box-shadow: 0 0 30px rgba(0,0,0, .18);
+}
+
+.container
+{
+	position: relative;
+	clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+#Assignments .container img
+{
+	width: 100%;
+	display: block;
+	border-radius: 20px 20px 0 0;
+}
+
+#Assignments div.container:after
+{
+	content: "";
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 20px 20px 0 0;
+	opacity: 0.7;
+}
+
+.card .details
+{
+	padding: 20px 10px;
+}
+
+.card .details h3
+{
+	color: #FFF;
+	font-weight: 600;
+	font-size: 18px;
+	margin: 10px 0 15px 0;
+}
+
+.card .details p
+{
+	color: #A0A0A0;
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 30px;
+}
+
+.card .details a
+{
+	color: #A0A0A0;
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 30px;
+
+	border: 2px solid;
+	border-radius: 10px;
+	border-color: #007D00;
+	padding: 12px 50px;
+
+	cursor: pointer;
+	transition: 0.5s;
+	box-sizing: border-box;
+	text-decoration: none;
+	margin-right: 10px;
+
+
+}
+
+.card .details a:hover
+{
+	color: white;
+	background: #007D00;
+}
+
+/* --------------------------------------- */
+/* ----- Dropdown ----- */
+/* --------------------------------------- */
+
+.dropdown 
+{
+	min-width: 15em;
+	position: relative;
+	margin: 2em;
+}
+
+.dropdown * 
+{
+	box-sizing: border-box;
+}
+
+.select 
+{
+	cursor: pointer;
+	background: #2a2f3b;
+	color: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 2px #2a2f3b solid;
+	border-radius: 0.5em;
+	padding: 1em;
+	transition: background 0.3s;
+}
+
+.select-clicked
+{
+	border: 2px #26489a solid;
+	box-shadow: 0 0 0.8em #26489a;
+}
+
+.select:hover 
+{
+	background: #323741;
+}
+
+.caret 
+{
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 6 solid #fff;
+	margin-left: 0.5em;
+	transition: border-top 0.3s;
+}
+
+.caret-rotate
+{
+	transform: rotate(180deg);
+}
+
+.menu 
+{
+	list-style: none;
+	padding: 0.2em 0.5em;
+	background: #323741;
+	border: 1px #363a43 solid;
+	box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+	border-radius: 0.5em;
+	border-radius: 0.5em;
+	color: #9fa5b5;
+	position: absolute;
+	top: 3em;
+	left: 50%;
+	width: 100%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: 0.2s;
+	z-index: 1;
+}
+
+.menu li 
+{
+	padding: 0.7em 0.5em;
+	margin: 0.3em 0;
+	border-radius: 0.5em;
+}
+
+.menu li:hover 
+{
+	background: #2a2d35;
+}
+
+.active
+{
+	background: #23242a;
+}
+
+.menu-open 
+{
+	display: block;
+	opacity: 1;
+}
+
+
+/* --------------------------------------- */
+/* ----- Convert ----- */
+/* --------------------------------------- */
+
+
+
+/* --------------------------------------- */
+/* ----- Result ----- */
+/* --------------------------------------- */
+*{
+	margin:0 0 6px;
+	box-sizing: border-box;
+  	scroll-behavior: smooth;
+	font-family: "Montserrat", sans-serif;
+}
+
+.error 
+{
+  color: #F00;
+  background-color: #FFF;
+}
+
+header
+{
+	text-align:left;
+	color:white;
+	background-color:#000000;
+	padding:30px 150px;
+}
+
+body /*	Use the Color Picker to find the hex code of your favorite color http://www.w3schools.com/tags/ref_colorpicker.asp */
+{
+	background-color: #151320;	
+}
+
+body p 
+{
+	padding-left: 2em;
+}
+
+
+li, li a /* Define the formatting for the links to the labs */
+{						
+	list-style: none;
+	background-color: #6b0078;
+	text-align: center;
+	color: white;
+	border-radius: 3px;
+	padding: 2px;
+  	text-decoration: none;
+}
+
+a:hover
+{
+	background-color: #93009c;
+} 
+
+li:hover
+{
+	background-color: #93009c;
+} 
+
+h2
+{
+	width: 100%;
+	color: #1E6E68;
+	line-height: 40px;
+}
+
+#Assignments h1
+{
+	text-align: center;
+}
+
+#Assignments select
+{
+	width: 100%;
+	height: 40px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	padding-left: 5px;
+}
+
+#Assignments a
+{
+	color: #b91414;
+	text-align: center;
+	width: 100%;
+	height: 400px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+h4
+{
+	color: #380356;
+	line-height: 30px;
+	text-align: left;
+}
+
+#assignments /* Define the formatting for the <div id="asssignments"> box */
+{			
+	width: 720px;
+	margin: 0 auto;
+	min-height: 300px;
+	padding: 15px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+#assignments ul 
+{
+	float:left;
+	width: 300px;
+}
+
+hr /* Define the formatting for the <hr /> line between "Course Work" and lab links */
+{						
+	margin: 10px 0;
+	width: 100%;
+	float: left;
+}
+
+#backButton
+{
+	background-color: #000000;
+	text-align: center; 
+	color: white;
+	border-radius: 5px;
+	padding: 25px;
+	padding-top: 2.5px;
+	padding-bottom: 2.5px;
+	padding-right: 25px;
+	padding-left: 25px;
+  	text-decoration: none;
+	position: relative;
+	left: 345px;
+	top: 20px
+}
+
+#backButton:hover
+{
+	background-color: #333333;
+}
+
+#center
+{
+	position: relative;
+	right: 170px;	
+}

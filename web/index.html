@@ -1,0 +1,67 @@
+<!--
+TITLE: Home Page
+AUTHOR: Malik Falana
+PURPOSE: Index Page to convert Playlists
+ORIGINALLY CREATED ON: 07/21/2023
+LAST MODIFIED ON: 07/26/2023
+LAST MODIFIED BY: Malik Falana (MF)
+MODIFICATION HISTORY: 
+07/21/2023: Original Build
+07/23/2023: Added dropdowns
+07/26/2023: UI Overhaul
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">   
+<title>EZ-Shift | Playlist Convertor </title>
+<link href="index.css" rel="stylesheet" type="text/css">
+
+<script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js" data-web-components async></script>
+<meta name="apple-music-developer-token" content="eyJhbGciOiJFUzI1NiIsImtpZCI6Ikg1WVpRNVpLWjQiLCJ0eXAiOiJKV1QifQ" />
+<meta name="apple-music-app-name" content="EZ-Shift" />
+<meta name="apple-music-app-build" content="1" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="index.js" type="module"></script>
+</head>	
+
+<body>
+	<header>
+		<h1>EZ-Shift</h1>
+    </header>
+	<div id="assignments">
+		<h1>Convert</h1>
+		<hr> <!-- Draw a horizontal line with formatting defined by css -->
+ 
+		<form action="">
+
+      <select name="Source" id="Source">
+      </select>
+
+      <select name="Plist" id="Plist">
+      </select>
+
+      <select name="Destination" id="Destination">
+      </select>
+
+      <input type="button" id ="Convert" value="Convert">
+
+     </form>
+
+     <div class = "master">
+      <div class = "card">
+          <div class="container">
+          <img src='https://placehold.co/40' alt='alt-image'>
+          </div>
+          <div class="details">
+          <h3>Title</h3>
+          <p>Description</p>
+          </div>
+      </div>
+  </div>
+	 
+	</div><!-- end div -->
+</body>
+</html>
+
+
