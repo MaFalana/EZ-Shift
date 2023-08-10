@@ -18,8 +18,5 @@
             "src": "/(.*)",
             "dest": "web/index.html"
         }
-    ],
-    "includeFiles": [
-        "api/MusicManager.py"
-      ]
+    ]
 }
