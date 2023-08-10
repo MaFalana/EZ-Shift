@@ -1,7 +1,7 @@
 {
     "builds": [
         {
-            "src": "api/*.py",
+            "src": "api/server.py",
             "use": "@vercel/python"
         }
     ],
@@ -10,5 +10,8 @@
             "src": "/(.*)",
             "dest": "api/server.py"
         }
-    ]
+    ],
+    "includeFiles": [
+        "api/MusicManager.py"
+      ]
 }
