@@ -1,11 +1,6 @@
-from flask import Flask, jsonify, request, g, session, redirect, url_for
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import requests
-import base64 #Used to encode the client ID and client secret in the proper format for the authorization header. (Spotify)
-from urllib.parse import urlencode
-
-
-import os
 
 import jwt, datetime, calendar, time
 
@@ -18,43 +13,9 @@ YT = YouTubeManager()
 
 
 
-app = Flask(__name__,template_folder="../web") # Initialize the Flask application
+app = Flask(__name__) # Initialize the Flask application
 CORS(app) # and enable CORS
 
-# Request Authorization
-
-# Request Token 
-
-
-@app.route('/Spotify/Callback',methods=['GET']) # Route to handle the redirect URI after user grants permission
-@cross_origin()
-def getSpotifyToken():
-    #AuthorizeSpotify() # Step 1 - Request User Authorization
-    code = request.args.get('code') # Get the authorization code from the request
-    
-    url = "https://accounts.spotify.com/api/token" # Step 2: Exchange the authorization code for an access token
-    
-    data = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": os.environ.get('SPOTIFY_REDIRECT')
-    }
-
-    
-
-    response = requests.post(url, data = data)
-
-    if response.status_code == 200:
-
-        token = response.json()
-
-        print(f'Token: {token}')
-
-        # return token["access_token"]
-    else:
-        print(f'Error: {response.status_code} - {response.text}')
-
-    return redirect("http://127.0.0.1:5500/web/index.html")
 
 @app.route('/Spotify/Playlist', methods=['GET']) # get the users playlists from spotify
 @cross_origin()
@@ -64,45 +25,6 @@ def getSpotify():
         
     return jsonify(data)
 
-def AuthorizeSpotify(): # Step 1 - Request User Authorization
-
-    auth = "https://accounts.spotify.com/authorize" # Step 1: Authorization Code Flow
-
-    data = {
-        "client_id": os.environ.get('SPOTIFY_CLIENT'),
-        "response_type": "code",
-        "redirect_uri": os.environ.get('SPOTIFY_REDIRECT'),
-        "scope": os.environ.get('SPOTIFY_SCOPES'),
-    }
-
-    url = f"{auth}?{urlencode(data)}"
-
-    print(f'URL: {url}')
-
-    response = requests.get(url, data = data)
-
-    x = response.json()
-
-    print(f'The code is {x}')
-
-    return None
-
-def getToken(code): # Step 2: Exchange the authorization code for an access token
-    url = "https://accounts.spotify.com/api/token" # Step 2: Exchange the authorization code for an access token
-    
-    data = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": os.environ.get('SPOTIFY_REDIRECT')
-    }
-
-    response = requests.post(url, data = data)
-
-    token = response.json()
-
-    print(f'Token: {token}')
-
-    return token["access_token"] # Use the access token for authorized user actions
 
 # Create Playlist
 @app.route('/Spotify/Convert', methods=['POST']) # Create a playlist on Spotify

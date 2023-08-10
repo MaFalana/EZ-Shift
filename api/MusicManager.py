@@ -7,7 +7,7 @@ import requests, base64
 
 load_dotenv()
 
-ytmusic = YTMusic("oauth.json")  # Create an instance of the Youtube Music API
+ytmusic = YTMusic("api/oauth.json")  # Create an instance of the Youtube Music API
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT'), client_secret=os.environ.get('SPOTIFY_SECRET'), redirect_uri=os.environ.get('SPOTIFY_REDIRECT'), scope=os.environ.get('SPOTIFY_SCOPES')))
 
 class MusicManager(object):

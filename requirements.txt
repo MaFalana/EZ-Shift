@@ -1,0 +1,9 @@
+Flask==2.0.2
+Flask-Cors==4.0.0
+requests==2.26.0
+pyjwt==2.3.0
+cryptography==36.0.0
+python-dotenv==0.19.1
+ytmusicapi==0.18.0
+spotipy==2.23.0
+

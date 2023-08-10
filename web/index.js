@@ -10,6 +10,9 @@ MODIFICATION HISTORY:
 07/22/2023: Worked on Spotify API code
 07/24/2023: Added dropdown menu
 07/25/2023: Added Youtube Music API code, encounterd ouath issue with Spotify API
+08/08/2023: Made MusicManager parent class
+08/09/2023: Worked on Spotify API code -> used Spotipy (Spotify API wrapper)
+08/10/2023: 
 ***************************************/
 //import getRecentGames from './intrests.js';
 //import {getRecentGames, createGame} from './intrests.js';
