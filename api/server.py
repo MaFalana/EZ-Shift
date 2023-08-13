@@ -139,7 +139,7 @@ def postAM():
     playlist = {
     'name': title,  # Should be the same as the name from the original playlist
     'description': 'Playlist created by EZ-Shift',
-    'tracks': tracks # array of tracks from the original playlist
+    'tracks': tracks, # array of tracks from the original playlist
     }
 
     getDeveloperToken() # Generate the Apple Developer Token

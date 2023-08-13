@@ -2,7 +2,7 @@
 
 ## Description
 
-EZ-Shift is designed to be an online platform that allows users to transfer their music playlists from one platform to another. It is available both as a website and as a mobile application. The website version can be accessed through a web browser on various devices, while the app version can be downloaded and installed on mobile devices such as smartphones and tablets.
+`EZ-Shift` is designed to be an online platform that allows users to transfer their music playlists from one platform to another. It is available both as a website and as a mobile application. The website version can be accessed through a web browser on various devices, while the app version can be downloaded and installed on mobile devices such as smartphones and tablets.
 
 ### Features
 
@@ -11,7 +11,7 @@ EZ-Shift is designed to be an online platform that allows users to transfer thei
 
 ### What I Learned
 
-Throughout the development of EZ-Shift, several valuable lessons were learned:
+Throughout the development of `EZ-Shift`, several valuable lessons were learned:
 
 - **OAuth:**
 
@@ -38,9 +38,9 @@ If Java is not installed, you can download it from the official [website](https:
 
 ## Future Improvements
 
-EZ-Shift has a lot of potential for further enhancements and features. Here are some ideas for future improvements:
+`EZ-Shift` has a lot of potential for further enhancements and features. Here are some ideas for future improvements:
 
-- **Compatability with other platforms:**:
+- **Compatability with other platforms:**: Like Pandora, Soundcloud, and Tidal
 
 ## Acknowledgements
 
