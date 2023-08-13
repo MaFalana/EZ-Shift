@@ -25,8 +25,8 @@ $(document).ready(function()
     var playlists = []; // Playlists to convert
 
     function fetchData(platform) {
-        const url = `http://127.0.0.1:5000/${platform}/Playlist`;
-        //const url = `https://ez-shift.vercel.app/${platform}/Playlist` // URL to test on vercel
+        //const url = `http://127.0.0.1:5000/${platform}/Playlist`;
+        const url = `https://ez-shift-server.vercel.app/${platform}/Playlist` // URL to test on vercel
         return new Promise(function (resolve, reject) {
           $.getJSON(url, function (data) {
             resolve(data);
@@ -87,9 +87,9 @@ $(document).ready(function()
 
         console.log(`You attempted to convert a ${source} playlist to a ${dest} playlist`);
 
-        const url = `http://127.0.0.1:5000/${dest}/Convert`;
+        //const url = `http://127.0.0.1:5000/${dest}/Convert`;
 
-        //const url = `https://portfolio-server-omega-gray.vercel.app/${platform}/Convert` // URL to test on vercel
+        const url = `https://ez-shift-server.vercel.app${dest}/Convert` // URL to test on vercel
 
         //console.log(`Playlist: ${playlist}`);
 

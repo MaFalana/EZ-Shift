@@ -17,6 +17,12 @@ app = Flask(__name__) # Initialize the Flask application
 CORS(app) # and enable CORS
 
 
+@app.route('/', methods=['GET']) # Home route
+@cross_origin()
+def home():
+    return jsonify({"Meassage": "Welcome to the EZ-Shift API!"})
+
+
 @app.route('/Spotify/Playlist', methods=['GET']) # get the users playlists from spotify
 @cross_origin()
 def getSpotify():
