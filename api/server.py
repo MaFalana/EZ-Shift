@@ -6,7 +6,7 @@ import os, jwt, datetime, calendar, time
 
 from cryptography.hazmat.primitives import serialization
 
-from MusicManager import SpotifyManager, YouTubeManager
+from api.MusicManager import SpotifyManager, YouTubeManager
 
 SP = SpotifyManager()
 YT = YouTubeManager()
