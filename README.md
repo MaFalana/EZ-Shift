@@ -63,3 +63,5 @@ Inspiration, code snippets, etc.
 - [Redirect Route](https://www.youtube.com/watch?v=mBycigbJQzA&t=945s)
 
 - [Spotipy](https://spotipy.readthedocs.io/en/2.22.1/)
+
+- [YouTube Data API v3](https://developers.google.com/youtube/v3/docs/?apix=true)
