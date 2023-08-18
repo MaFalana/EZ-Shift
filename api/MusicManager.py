@@ -14,10 +14,11 @@ import googleapiclient.errors
 
 
 
+
 load_dotenv()
 
 ytmusic = YTMusic("api/oauth.json")  # Create an instance of the Youtube Music API
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT'), client_secret=os.environ.get('SPOTIFY_SECRET'), redirect_uri=os.environ.get('SPOTIFY_REDIRECT'), scope=os.environ.get('SPOTIFY_SCOPES')))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT'), client_secret=os.environ.get('SPOTIFY_SECRET'), redirect_uri=os.environ.get('LOCAL_REDIRECT'), scope=os.environ.get('SPOTIFY_SCOPES')))
 
 class MusicManager(object):
     def __init__(self):
@@ -38,51 +39,15 @@ class AppleManager(MusicManager):
         super().__init__() # Call the parent constructor
 
     def getPlaylists(self):
-        devToken = self.getDeveloperToken() # Generate the Apple Developer Token
-        #key = os.environ.get('APPLE_DEV_TOKEN')
-        userToken = os.environ.get('APPLE_MUSIC_USER_TOKEN')#self.getMusicToken() # Get the Music User Token
-
-        print(devToken)
-        print(userToken)
+        
+        list = [] # Create an empty array to store the playlists
 
         url = 'https://api.music.apple.com/v1/me/library/playlists'
 
-        headers = {
-            "Accept": "application/json", 
-            "Authorization": f"Bearer {devToken}",
-            "Music-User-Token": f"{userToken}"
-            }
+        list = self.addMore(list, url)
 
-        response = requests.get(url, headers = headers)
-
-        data = response.json()
-
-        print(data)
-
-        playlists = data['data'] # Get the playlists , an array of objects
-
-        total = data['meta']['total'] # Get the total number of playlists
-
-        list = [] # Create an empty array to store the playlists
-
-        for playlist in playlists: # Loop through the playlists and get the tracks
-            
-            w = playlist['attributes']['artwork']['width']
-
-            h = playlist['attributes']['artwork']['height']
-
-            image = playlist['attributes']['artwork']['url']#.replace('{w}', str(w)).replace('{h}', str(h))
-
-            DATA = {
-            'id': playlist['id'],
-            'title': playlist['attributes']['name'],
-            'image':  image,
-            'description': playlist['attributes']['description']['standard'],
-            'tracks': [], #getAppleTracks(playlists[i]['id'])
-            'origin': 'Apple Music'
-        }
-            list.append(DATA) # Append the playlist to the list
-            
+        print(f"Total Playlists: {len(list)}")
+        
         return list
 
     def getTracks(self, id):
@@ -101,7 +66,7 @@ class AppleManager(MusicManager):
 
         data = response.json()
 
-        print(data)
+        #print(data)
 
         tracks = data['data'] # Get the playlists , an array of objects
 
@@ -116,37 +81,70 @@ class AppleManager(MusicManager):
 
         return list
 
-    def postPlaylist(self, data, tracks):
+    def postPlaylist(self, data):
         
         playlist = data['playlist'] # Get the data from the request
 
         title = playlist['title'] # Get the title of the playlist
 
-        songs = playlist['tracks'] # Get the playlists , an array of objects
-
         #tracks = [] # Get the playlists , an array of objects
 
         playlist = {
-        'name': title,  # Should be the same as the name from the original playlist
-        'description': 'Playlist created by EZ-Shift',
-        'tracks': tracks, # array of tracks from the original playlist
+            'attributes': 
+            {
+                'name': title,  # Should be the same as the name from the original playlist
+                'description': 'Playlist created by EZ-Shift',
+                'artwork': data['playlist']['image']
+            }
         }
-
-        key = self.getDeveloperToken() # Generate the Apple Developer Token
-
-        #key = os.environ.get('APPLE_DEV_TOKEN')
-
-        print(key)
 
         url = 'https://api.music.apple.com/v1/me/library/playlists'
 
-        headers = {"Accept": "application/json", "Authorization": f"Bearer {key}"}
+        headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('APPLE_DEV_TOKEN')}",
+            "Music-User-Token": f"{os.environ.get('APPLE_MUSIC_USER_TOKEN')}"
+            }
+
 
         response = requests.post(url, headers = headers, json = playlist)
 
         data = response.json()
 
-        print(data)
+        return data['data'][0]['id']
+
+
+    def addTracks(self, id, tracks):
+
+        list = []
+
+        for track in tracks:
+
+            Track = {
+                'id': track['id'],
+                'type': 'songs'
+            }
+
+            list.append(Track)
+
+        data = {
+            'data': list
+        }
+
+        url = f'https://api.music.apple.com/v1/me/library/playlists/{id}/tracks'
+
+        headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('APPLE_DEV_TOKEN')}",
+            "Music-User-Token": f"{os.environ.get('APPLE_MUSIC_USER_TOKEN')}"
+            }
+
+
+        response = requests.post(url, headers = headers, json = data)
+
+        #data = response.json()
+
+        #print(data)
 
 
     def getDeveloperToken(self): #Generates a Developer Token for Apple Music
@@ -208,11 +206,117 @@ class AppleManager(MusicManager):
         
         return data['access_token']
     
+    def searchTracks(self, source): # Method to get the tracks from a playlist that is going to be converted to Apple Music
 
+        tracks = [] # Create an empty array to store the tracks
+
+        for song in source: #appends the songs from the source playlist
+
+            query = f"{song['artist']} {song['title']}"
+
+            print(f'Searching for: {query}')
+
+            url = f"https://api.music.apple.com/v1/catalog/us/search?types=songs&term={query}"
+
+            headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('APPLE_DEV_TOKEN')}",
+            "Music-User-Token": f"{os.environ.get('APPLE_MUSIC_USER_TOKEN')}"
+            }
+
+
+            response = requests.get(url, headers = headers)
+
+            data = response.json()
+
+            if 'results' in data:
+
+                result = data['results'] # Get the tracks, an array of objects
+
+                if 'songs' in result:
+
+                    item = result['songs']['data'][0]
+
+                    track = {
+                    'id': item['id'],
+                    'title': item['attributes']['name'],
+                    'artist': item['attributes']['artistName'],
+                    'uri': item['attributes']['url']
+                    }
+
+                    tracks.append(track) # Append the track to the list
+
+        return tracks
     
 
+    def addImage(self, playlist):
+
+        attributes = playlist['attributes']
+
+        if 'artwork' in attributes: # If the playlist has an image, return the image url
+
+            artwork = playlist['attributes']['artwork']
+
+            w = artwork['width']
+
+            h = artwork['height']
+
+            return artwork['url'].replace('{w}', str(w)).replace('{h}', str(h))
+
+        else:
+            return None
         
 
+    def addDescription(self, playlist):
+
+        attributes = playlist['attributes']
+
+        if 'description' in attributes: # If the playlist has an image, return the image url
+
+            return playlist['attributes']['description']['standard']
+
+        else:
+            return None
+
+    def addMore(self, list, url):
+
+        headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('APPLE_DEV_TOKEN')}",
+            "Music-User-Token": f"{os.environ.get('APPLE_MUSIC_USER_TOKEN')}"
+            }
+
+        response = requests.get(url, headers = headers)
+
+        #print(response.content)
+
+        if response.status_code == 200: # If the request is successful, return the playlists
+
+            data = response.json()
+
+            playlists = data['data'] # Get the playlists , an array of objects
+
+            for playlist in playlists: # Loop through the playlists and get the tracks
+                
+                image = self.addImage(playlist)
+                description  = self.addDescription(playlist)
+
+                DATA = {
+                'id': playlist['id'],
+                'title': playlist['attributes']['name'],
+                'image':  image,
+                'description': description,
+                'tracks': [], #getAppleTracks(playlists[i]['id'])
+                'origin': 'Apple Music'
+            }
+                list.append(DATA) # Append the playlist to the list
+
+            if 'next' in data and data['next'] is not None:
+                url = f'https://api.music.apple.com{data["next"]}'
+                list = self.addMore(list, url)
+
+            return list
+        
 
 # Spotify Music Manager
 class SpotifyManager(MusicManager):
@@ -259,7 +363,6 @@ class SpotifyManager(MusicManager):
 
         playlist = {
         'name': source['title'],  # Should be the same as the name from the original playlist
-        'image': [{'url': source['image']}] , # Should be the same as the image from the original playlist
         'description': 'Playlist created by EZ-Shift',
         'public': False,
         'tracks': [track['uri'] for track in tracks] # array of tracks from the original playlist
@@ -269,7 +372,9 @@ class SpotifyManager(MusicManager):
 
         sp.playlist_add_items(new['id'], playlist['tracks'])
 
-        sp.playlist_upload_cover_image(new['id'], self.createCoverArt(playlist['image'][0]['url']))
+        if source['image'] is not None:
+
+            sp.playlist_upload_cover_image(new['id'], self.createCoverArt(source['image']))
 
         print("Playlist created and tracks added successfully!")
         
@@ -298,9 +403,13 @@ class SpotifyManager(MusicManager):
         return list
 
 
-    def searchSpotifyTracks(self, source): # Method to get the tracks from a playlist that is going to be converted to spotify
+    def searchTracks(self, source): # Method to get the tracks from a playlist that is going to be converted to spotify
+
+        total = len(source)
 
         limit = 1
+
+        errors = []
 
         tracks = [] # Create an empty array to store the tracks
 
@@ -310,16 +419,28 @@ class SpotifyManager(MusicManager):
 
             data = sp.search(q=query, type='track', limit=limit)
 
-            item = data['tracks']['items'][0] # Get the tracks , an array of objects
+            if data:
 
-            track = {
-            'id': item['id'],
-            'title': item['name'],
-            'artist': item['artists'][0]['name'],
-            'uri': item['uri']
-            }
+                if data['tracks']['items']:
 
-            tracks.append(track) # Append the track to the list
+                    item = data['tracks']['items'][0] # Get the tracks , an array of objects
+
+                    track = {
+                    'id': item['id'],
+                    'title': item['name'],
+                    'artist': item['artists'][0]['name'],
+                    'uri': item['uri']
+                    }
+
+                    tracks.append(track) # Append the track to the list
+
+            else:
+
+                errors.append(query)
+
+        if len(errors) > 0:
+            print(f'Error transferring {errors}')
+
 
         return tracks
 

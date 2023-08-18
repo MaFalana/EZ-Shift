@@ -1,12 +1,8 @@
-from flask import Flask, jsonify, request, redirect, url_for, session
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-import requests
+import os, requests
 
-import os
-
-
-
-from MusicManager import AppleManager, SpotifyManager, YouTubeManager
+from api.MusicManager import AppleManager, SpotifyManager, YouTubeManager
 
 AM = AppleManager()
 SP = SpotifyManager()
@@ -21,12 +17,12 @@ CORS(app) # and enable CORS
 @app.route('/')
 @cross_origin()
 def index():
-    #return {'message': 'Connected to EZ-Shift API'}
-    client = os.environ.get('APPLE_KEY_ID')
-    redirect = os.environ.get('APPLE_REDIRECT')
-    auth = f"https://appleid.apple.com/auth/authorize?client_id={client}&response_type=code&redirect_uri={redirect}&scope=music"
-    print(f"Auth URL: {auth}")
-    return redirect(auth)
+    return {'message': 'Connected to EZ-Shift API'}
+    #client = os.environ.get('APPLE_KEY_ID')
+    #redirect = os.environ.get('APPLE_REDIRECT')
+    #auth = f"https://appleid.apple.com/auth/authorize?client_id={client}&response_type=code&redirect_uri={redirect}&scope=music"
+    #print(f"Auth URL: {auth}")
+    #return redirect(auth)
 
 
 @app.route('/Spotify/Playlist', methods=['GET']) # get the users playlists from spotify
@@ -45,33 +41,22 @@ def postSpotify():
 
     data = request.get_json() # Get the data from the request
 
-    tracks = data['playlist']['tracks'] # Get the tracks from the request
+    if data['playlist']['origin'] == 'Apple Music': # If the playlist doesn't exist, create it
 
-    tracks = SP.searchSpotifyTracks(tracks) # Get the tracks from the request
+        tracks = AM.getTracks(data['playlist']['id']) # Get the tracks from the request
+    else:
 
-    print(f'Tracks: {tracks}')
+        tracks = data['playlist']['tracks'] # Get the tracks from the request
+
+    tracks = SP.searchTracks(tracks) # Get the tracks from the request
     
     SP.postPlaylist(data, tracks) # Post the playlist to the server
 
     return jsonify(success=True)
 
 
-# Add items to playlist
 
 
-
-#Apple Music
-
-'''
-Get All Library Playlists
-
-
-Create a New Library Playlist
-POST https://api.music.apple.com/v1/me/library/playlists
-
-Add Tracks to a Library Playlist
-POST https://api.music.apple.com/v1/me/library/playlists/{id}/tracks
-'''
 @app.route('/Apple/Callback', methods=['GET']) # 
 @cross_origin()
 def loginAM():
@@ -90,9 +75,12 @@ def loginAM():
 @cross_origin()
 def getAM():
     
-    data = AM.getPlaylists() # Get the playlists , an array of objects
-        
-    return jsonify(data)
+    try:
+        data = AM.getPlaylists() # Get the playlists , an array of objects
+        return jsonify(data)
+    except Exception as e:
+        traceback.print_exc()  # Print the full traceback to the console
+        return jsonify({'error': 'An error occurred'})
 
 
 @app.route('/Apple/Convert', methods=['POST'])  # Convert a playlist to Apple Music
@@ -111,7 +99,11 @@ def postAM():
 
         tracks = data['playlist']['tracks']
 
-    AM.postPlaylist(data, tracks) # Post the playlist to the server
+    tracks = AM.searchTracks(tracks) # Get the tracks from the request
+
+    id = AM.postPlaylist(data) # Post the playlist to the server
+    
+    AM.addTracks(id, tracks)
 
     return jsonify(success=True)
 
@@ -135,7 +127,7 @@ def postYT():
 
     id = data['playlist']['id']
     
-    if data['playlist']['origin'] == 'Apple': # If the playlist doesn't exist, create it
+    if data['playlist']['origin'] == 'Apple Music': # If the playlist doesn't exist, create it
     
         tracks = AM.getTracks(id) # Get the tracks from the request
     
@@ -174,7 +166,7 @@ def getYT2():
     return jsonify(data)
 
 
-# Start the server when the script is run directly
+
 if __name__ == '__main__':
-    app.run()
+    app.run() # Start the server when the script is run directly
     

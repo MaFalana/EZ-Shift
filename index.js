@@ -19,25 +19,13 @@ MODIFICATION HISTORY:
 
 $(document).ready(function() 
 {
-  async function authorize() 
-  {
-    const music = MusicKit.getInstance();
-    await music.authorize();
-    const token = music.musicUserToken;
-
-    console.log("token is: " + token);
-  }
-
-  
-
-
     const platform = ["Apple", "Spotify", "Youtube"]; // Platforms to convert to
 
     var playlists = []; // Playlists to convert
 
     function fetchData(platform) {
-        const url = `http://127.0.0.1:5000/${platform}/Playlist`;
-        //const url = `https://ez-shift-server.vercel.app/${platform}/Playlist` // URL to test on vercel
+        //const url = `http://127.0.0.1:5000/${platform}/Playlist`;
+        const url = `https://ez-shift-server.vercel.app/${platform}/Playlist` // URL to test on vercel
         return new Promise(function (resolve, reject) {
           $.getJSON(url, function (data) {
             resolve(data);
@@ -98,9 +86,9 @@ $(document).ready(function()
 
         console.log(`You attempted to convert a ${source} playlist to a ${dest} playlist`);
 
-        const url = `http://127.0.0.1:5000/${dest}/Convert`;
+        //const url = `http://127.0.0.1:5000/${dest}/Convert`;
 
-        //const url = `https://ez-shift-server.vercel.app/${dest}/Convert` // URL to test on vercel
+        const url = `https://ez-shift-server.vercel.app/${dest}/Convert` // URL to test on vercel
 
         //console.log(`Playlist: ${playlist}`);
 
@@ -225,6 +213,15 @@ $(document).ready(function()
       console.log("authorized");
       console.log("token is: " + token);
       
+    }
+
+    async function authorize() 
+    {
+      const music = MusicKit.getInstance();
+      await music.authorize();
+      const token = music.musicUserToken;
+
+      console.log("token is: " + token);
     }
 
     authorize();

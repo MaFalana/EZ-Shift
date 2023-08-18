@@ -6,7 +6,7 @@
 
 ### Features
 
-- **Convertor:** Convert playlist from one platform to another
+- **Convertor:** Converts a playlist from one platform to another
 
 
 ### What I Learned
@@ -29,18 +29,28 @@ Throughout the development of `EZ-Shift`, several valuable lessons were learned:
 
 ## Compiling
 
-### Mobile Dependencies
-IOS (version 15.0.0 or higher)
+Using any modern browser, you can access it from this [website](https://mafalana.github.io/EZ-Shift/)
 
-From a mobile device you can download [here]()
-
-If Java is not installed, you can download it from the official [website](https://www.java.com/en/download/)
 
 ## Future Improvements
 
 `EZ-Shift` has a lot of potential for further enhancements and features. Here are some ideas for future improvements:
 
-- **Compatability with other platforms:**: Like Pandora, Soundcloud, and Tidal
+### Bugs
+
+- **Error/Exception Handling:**
+
+- **Wrong Songs:** When converting a playlist to YouTube it may get the instrumental of a song instead of the actual one
+
+### Improvements
+
+- **Compatability with other platforms:**: Like Pandora, Amazon, Soundcloud, and Tidal
+
+- **Previews:** Previewing songs and/or playlists
+
+- **Share Links:** Generate a link to share with friends
+
+- **Mobile App:** 
 
 ## Acknowledgements
 
