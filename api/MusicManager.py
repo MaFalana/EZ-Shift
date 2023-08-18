@@ -18,7 +18,7 @@ import googleapiclient.errors
 load_dotenv()
 
 ytmusic = YTMusic("api/oauth.json")  # Create an instance of the Youtube Music API
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT'), client_secret=os.environ.get('SPOTIFY_SECRET'), redirect_uri=os.environ.get('LOCAL_REDIRECT'), scope=os.environ.get('SPOTIFY_SCOPES')))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT'), client_secret=os.environ.get('SPOTIFY_SECRET'), redirect_uri=os.environ.get('REDIRECT'), scope=os.environ.get('SPOTIFY_SCOPES')))
 
 class MusicManager(object):
     def __init__(self):
