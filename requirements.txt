@@ -8,7 +8,7 @@ ytmusicapi==1.1.1
 spotipy==2.23.0
 
 google-auth==2.6.0
-google-auth-httplib2==0.1.6
+google-auth-httplib2==0.1.0
 
 google_auth_oauthlib == 0.4.6
 google-api-python-client == 2.96.0
